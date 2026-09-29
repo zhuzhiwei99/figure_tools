@@ -1,0 +1,32 @@
+{
+    "source_image_origin": "uploaded_by_client",
+    "original_source_path_or_filename": "SH-distill-L3-D24.png",
+    "server_filename_processed": "uploaded_91796b3eb9e348afae5b0ab5be30d802.png",
+    "selection_shape": "Rectangle",
+    "selection_color": "yellow",
+    "original_image_size_at_source": [
+        1558,
+        1038
+    ],
+    "selection_coords_on_original_image": [
+        83,
+        101,
+        632,
+        306
+    ],
+    "display_image_size_at_selection_time": [
+        682.2265625,
+        454.5182189941406
+    ],
+    "selection_coords_on_display_image": {
+        "x1": 36.3515625,
+        "y1": 44.33333396911621,
+        "x2": 277.1536865234375,
+        "y2": 134.3333339691162
+    },
+    "scale_factors_applied": [
+        2.283698826223876,
+        2.2837368374300113
+    ],
+    "output_job_folder": "SH-distill-L3-D24_annotated_single"
+}

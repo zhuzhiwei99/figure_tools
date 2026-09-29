@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Data Plotter</title>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; background-color: #f8f9fa; }
+        .container { width: 95%; max-width: 1400px; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1, h2 { text-align: center; color: #333; margin-bottom: 15px;}
+        .section { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #fdfdfd;}
+        label { display: inline-block; margin-right: 10px; font-weight: bold; }
+        input[type="text"], select { padding: 8px; margin-right: 10px; margin-bottom:10px; border: 1px solid #ccc; border-radius: 4px; min-width: 200px; box-sizing: border-box; }
+        button { padding: 8px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px; margin-right: 5px;}
+        button:hover { background-color: #0056b3; }
+        button:disabled { background-color: #ccc; cursor:not-allowed; }
+        #plotDiv { width: 100%; min-height: 500px; border: 1px solid #eee;}
+        #status { margin-top: 15px; padding: 10px; background-color: #e9ecef; border-radius: 4px; min-height: 20px; }
+        .key-selector select { width: 250px; }
+        .hidden { display: none !important; }
+        
+        #currentEffectiveBaseDisplay { font-weight: normal; font-style: italic; color: #007bff; margin-left: 5px; }
+        #serverDirectoryBrowserContainer { margin-top: 10px; padding:10px; border: 1px dashed #007bff; border-radius: 4px;}
+        #currentBrowsingPathDisplay { font-weight: bold; margin-bottom: 5px; color: #333; }
+        .server-dir-browser { max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 5px; margin-top:5px; background-color: #fff;}
+        .server-dir-browser ul { list-style-type: none; padding-left: 0; margin:0; }
+        .server-dir-browser li { cursor: pointer; padding: 4px 8px; border-bottom: 1px solid #eee;}
+        .server-dir-browser li:last-child {border-bottom: none;}
+        .server-dir-browser li:hover { background-color: #e9ecef; }
+        .dir_selectable::before { content: "📁 "; color: #FFC107; } 
+        .parent_selectable::before { content: "↩️ "; color: #17A2B8; }
+
+        .method-selection-box { margin-top: 15px; margin-bottom: 15px; padding: 10px; border: 1px solid #007bff; background-color: #f0f8ff; max-height: 250px; overflow-y: auto; font-size: 0.9em; }
+        .method-selection-box h3 { margin-top: 0; font-size: 1em; color: #333; border-bottom: 1px solid #add8e6; padding-bottom:3px; margin-bottom:5px;}
+        .method-selection-box ul { padding-left: 5px; margin: 5px 0; list-style-type: none; }
+        .method-selection-box li { margin-bottom: 5px; }
+        .method-selection-box input[type="checkbox"] { margin-right: 8px; vertical-align: middle; }
+        .method-selection-box label { font-weight: normal; } /* For checkbox labels */
+        .selection-buttons button { font-size: 0.8em; padding: 4px 8px; margin-top: 0; }
+
+
+        #dataTableContainer { margin-top: 20px; margin-bottom: 20px; max-height: 400px; overflow: auto; border: 1px solid #ccc; }
+        #dataTableContainer h3 { margin-top:0; margin-bottom:10px; font-size: 1.1em; }
+        #dataTable { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+        #dataTable th, #dataTable td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; white-space: nowrap; }
+        #dataTable th { background-color: #f0f0f0; position: sticky; top: 0; z-index: 1;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JSON Data Plotter</h1>
+
+        <div class="section" id="baseFolderSelectionSection">
+             <h2>1. Select Base JSON Data Folder</h2>
+            <p>Current Base: <strong id="currentEffectiveBaseDisplay">Default (as per server config)</strong> 
+               <button id="browseBaseFoldersBtn">Browse / Change Base</button>
+            </p>
+            <div id="serverDirectoryBrowserContainer" class="hidden">
+                <div id="currentBrowsingPathDisplay">Browsing: / (within server's allowed area)</div>
+                <div class="server-dir-browser" id="serverDirBrowser"><p>Loading...</p></div>
+                <button id="setThisFolderAsBaseBtn" disabled>Set This Path as Base for JSONs</button>
+            </div>
+        </div>
+
+        <div class="section" id="dataLoadingSection">
+            <h2>2. Load JSON Data & Select Methods</h2>
+            <div>
+                <label for="folderPath">Sub-folder Path (relative to current base):</label>
+                <input type="text" id="folderPath" value="" placeholder="e.g., experiment_A or empty for current base">
+            </div>
+            <div>
+                <label for="filenameRegex">Filename Regex (for JSONs):</label>
+                <input type="text" id="filenameRegex" value=".*rp_summary.json$" title="Default: all rp_summary.json files">
+            </div>
+            <button id="loadKeysBtn">Scan Files & List Methods/Keys</button>
+            
+            <div class="method-selection-box hidden" id="methodSelectionContainer">
+                <h3>Select Data Series (Methods) to Plot:</h3>
+                <div class="selection-buttons">
+                    <button id="selectAllMethodsBtn">Select All</button>
+                    <button id="deselectAllMethodsBtn">Deselect All</button>
+                </div>
+                <ul id="methodCheckboxList"></ul>
+            </div>
+        </div>
+
+        <div class="section hidden" id="keySelectionArea">
+            <h2>3. Select Metric Keys for Plotting</h2>
+            <div class="key-selector">
+                <label for="xKey">X-Axis Metric:</label> <select id="xKey"></select>
+            </div>
+            <div class="key-selector">
+                <label for="yKey">Y-Axis Metric:</label> <select id="yKey"></select>
+            </div>
+            <button id="plotBtn">Generate Table & Plot</button>
+        </div>
+        
+        <div id="dataTableContainer" class="hidden">
+            <h3>Data Table Preview</h3>
+            <table id="dataTable">
+                <thead><tr id="dataTableHeaderRow"></tr></thead>
+                <tbody id="dataTableBody"></tbody>
+            </table>
+        </div>
+
+        <div id="plotDiv"><p style="text-align:center;padding-top:50px;color:#777;">Plot will appear here.</p></div>
+        <div id="status">Welcome! Configure base folder if needed, then scan files.</div>
+    </div>
+    <script src="{{ url_for('static', filename='js/plotter.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Image Annotator & Cropper</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; margin: 0; padding: 0; height: 100vh; background-color: #f4f4f4; }
+        .controls { width: 280px; padding: 15px; border-right: 1px solid #ccc; background-color: #fff; overflow-y: auto; display: flex; flex-direction: column; }
+        .display-area { flex-grow: 1; padding: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto;}
+        
+        .controls h3 { margin-top: 0; margin-bottom: 10px; color: #333; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .controls hr { margin: 15px 0; border: 0; border-top: 1px solid #eee; }
+        .controls label { display: block; margin-bottom: 3px; font-weight: bold; font-size: 14px; }
+        .controls input[type="radio"], .controls select, .controls input[type="number"], .controls button { margin-bottom: 10px; }
+        .controls input[type="number"] { width: 60px; padding: 5px; }
+        .controls button, .button-like {
+            display: block; width: 100%; padding: 8px 12px; margin-bottom: 8px;
+            background-color: #007bff; color: white; border: none; border-radius: 4px;
+            cursor: pointer; text-align: center; font-size: 14px; box-sizing: border-box;
+        }
+        .controls button:hover, .button-like:hover { background-color: #0056b3; }
+        .controls button:disabled { background-color: #ccc; cursor: not-allowed; }
+        
+        #directoryBrowserTitle { font-weight: bold; margin-bottom: 5px; font-size: 13px;}
+        .directory-browser { max-height: 220px; overflow-y: auto; border: 1px solid #ddd; padding: 5px; background-color: #f9f9f9; margin-bottom:10px; }
+        .directory-browser ul { list-style-type: none; padding-left: 0; margin: 0; }
+        .directory-browser li { cursor: pointer; padding: 4px 8px; border-bottom: 1px solid #eee; font-size:13px; }
+        .directory-browser li:last-child { border-bottom: none; }
+        .directory-browser li:hover { background-color: #e9ecef; }
+        .dir-item::before { content: "📁 "; color: #FFD700; }
+        .file-item::before { content: "📄 "; color: #6c757d; }
+        .parent-item::before { content: "↩️ "; color: #007bff; }
+
+        .image-container { 
+            position: relative; 
+            border: 2px dashed #ccc; 
+            max-width: 95%; 
+            max-height: 80vh; 
+            margin-bottom:15px; 
+            overflow: hidden; 
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            background-color: #e9ecef;
+            min-height: 300px; 
+        }
+        #mainImage { 
+            display: block; max-width: 100%; max-height: 100%;
+            user-select: none; object-fit: contain; 
+        }
+        #mainImage[alt]:not([src]) { font-style: italic; color: #666; padding: 20px; text-align: center; }
+        #selectionCanvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
+        
+        #status { 
+            margin-top:15px; padding:10px; background-color:#e9ecef; 
+            border:1px solid #ced4da; border-radius: 4px; 
+            min-height: 40px; width: 95%; text-align: left;
+            font-size: 13px; line-height: 1.5;
+            max-height: 120px; overflow-y: auto;
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <h3>Load Image / Folder</h3>
+        <div class="native-file-input">
+            <label for="singleImageInputNative" id="loadSingleImageBtn" class="button-like">Select Single Image (Local)</label>
+            <input type="file" id="singleImageInputNative" accept="image/*,image/webp" style="display: none;">
+        </div>
+        <hr>
+        <h3>Browse Server Images/Folders</h3>
+        <div id="directoryBrowserTitle">Current: /</div>
+        <div class="directory-browser" id="directoryBrowser">
+            <p>Loading directories...</p>
+        </div>
+        <hr>
+        <h3>Annotation</h3>
+        <div>
+            <label for="shapeSelect">Shape:</label>
+            <input type="radio" name="shape" value="Rectangle" id="shapeRectangle" checked> <label for="shapeRectangle" style="font-weight:normal; display:inline;">Rectangle</label>
+            <input type="radio" name="shape" value="Circle" id="shapeCircle"> <label for="shapeCircle" style="font-weight:normal; display:inline;">Circle</label>
+        </div>
+        <div>
+            <label for="shapeColor">Color:</label>
+            <select id="shapeColor">
+                <option value="yellow" style="background-color:yellow; color:black;">Yellow</option>
+                <option value="red" style="background-color:red; color:white;">Red</option>
+                <option value="blue" style="background-color:blue; color:white;">Blue</option>
+                <option value="green" style="background-color:green; color:white;">Green</option>
+            </select>
+        </div>
+        <div>
+            <label for="lineWidth">Line Width (px):</label>
+            <input type="number" id="lineWidth" value="2" min="1" max="20">
+        </div>
+        <button id="confirmSelectionBtn" disabled>Confirm Selection & Process</button>
+        <button id="applyToFolderBtn" class="hidden">Apply to Folder (Server)</button>
+    </div>
+
+    <div class="display-area">
+        <div class="image-container" id="imageContainer">
+            <img id="mainImage" alt="Load an image locally, or browse server images on the left.">
+            <canvas id="selectionCanvas"></canvas>
+        </div>
+        <div id="status">Welcome! Please select an image to start.</div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

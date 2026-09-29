@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Gallery</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root { --sidebar-width: 380px; }
+    body, html { height: 100%; overflow: hidden; }
+    .main-layout { display: flex; height: 100vh; }
+    .sidebar { width: var(--sidebar-width); min-width: 320px; background-color: #f8f9fa; border-right: 1px solid #dee2e6; display: flex; flex-direction: column; }
+    .sidebar .card { border-radius: 0; border-left: 0; border-right: 0; }
+    .sidebar-scrolling-content { flex-grow: 1; overflow-y: auto; }
+    .content { flex-grow: 1; overflow-y: auto; padding: 2rem; }
+    .content-header { border-bottom: 2px solid #eee; padding-bottom: 1rem; margin-bottom: 1.5rem; }
+
+    /* Directory Tree */
+    .tree-container ul { list-style-type: none; padding-left: 20px; }
+    .tree-item.collapsed > ul { display: none; }
+    .tree-item > .tree-label > .toggler::before { content: '▶'; }
+    .tree-item:not(.collapsed) > .tree-label > .toggler::before { content: '▼'; }
+    .tree-label { cursor: pointer; padding: 4px 8px; border-radius: 5px; display: flex; align-items: center; }
+    .tree-label:hover { background-color: #e9ecef; }
+    .tree-label.selected { background-color: #0d6efd; color: white; }
+    .tree-label .toggler { margin-right: 6px; width: 1em; text-align: center; }
+    
+    /* Image Selection List */
+    #imageListContainer { max-height: 250px; overflow-y: auto; }
+    #imageListContainer .list-group-item { padding: .5rem 1rem; }
+
+    /* Flexbox layout styles */
+   .image-flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-start; /* Align items to the top of the row */
+    }
+    .image-wrapper {
+      flex: 1 1 200px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #dee2e6;
+      border-radius: .375rem;
+      background-color: #fff;
+      padding: 0.5rem;
+    }
+    .img-container {
+      /* This container no longer needs a fixed height */
+      margin-bottom: 0.5rem;
+    }
+    .img-container img {
+      width: auto; /* Width is automatic to maintain aspect ratio */
+      max-width: 100%; /* Prevents image from overflowing its container */
+      max-height: 1000px; /* Controls the max height of any image */
+      display: block; /* Removes any extra space below the image */
+      margin: 0 auto; /* Horizontally centers the image within the container */
+      cursor: pointer;
+    }
+    .image-directory-label {
+      font-size: 0.75rem;
+      color: #6c757d;
+      word-break: break-all;
+      text-align: center;
+      margin-top: auto; 
+    }
+  </style>
+</head>
+<body>
+
+<div class="main-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-scrolling-content">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <strong>1. Select Directory</strong>
+          <div>
+            <button id="setRootBtn" class="btn btn-sm btn-outline-primary" disabled>Set as Scan Root</button>
+            <button id="changeRootBtn" class="btn btn-sm btn-outline-secondary d-none">Change Root</button>
+          </div>
+        </div>
+        <div class="card-body tree-container" id="directoryTreeContainer"><p class="text-muted small">Loading directories...</p></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><strong>2. Scan Control</strong></div>
+        <div class="card-body" id="scanControlContainer">
+          <p id="scanInstruction" class="text-muted small">Please set a scan root above.</p>
+          <button id="scanBtn" class="btn btn-primary w-100" disabled>Scan Root Directory</button>
+        </div>
+      </div>
+      <div id="imageSelectionModule" class="d-none">
+        <div class="card">
+          <div class="card-header"><strong>3. Filter & Select Images</strong></div>
+          <div class="card-body">
+            <input type="text" id="imageFilterInput" class="form-control form-control-sm mb-2" placeholder="Filter by name...">
+            <div id="imageListContainer" class="list-group list-group-flush border rounded"></div>
+            <div class="btn-group w-100 mt-2">
+              <button id="selectAllBtn" class="btn btn-sm btn-outline-secondary">Select All</button>
+              <button id="deselectAllBtn" class="btn btn-sm btn-outline-secondary">Deselect All</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-3 border-top">
+      <button id="displayBtn" class="btn btn-success w-100" disabled><strong>Display Selected Images</strong></button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content">
+    <div id="welcomeMessage"><div class="text-center p-5 rounded bg-light"><h2 class="text-body-secondary">Image Gallery</h2><p class="text-muted">Follow the steps in the left panel or set a default root.</p></div></div>
+    <div id="galleryView" class="d-none">
+      <div class="content-header">
+        <p class="mb-0">Showing <strong id="imageCountDisplay">0</strong> image groups from: <strong id="currentDirectoryDisplay" class="text-dark"></strong></p>
+        <button id="downloadAllBtn" class="btn btn-dark">⬇️ Download Displayed as ZIP</button>
+      </div>
+      <div id="galleryContainer"></div>
+      <nav id="paginationContainer" class="mt-4 d-flex justify-content-center"></nav>
+    </div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content"><div class="modal-body text-center p-1"><img id="modalImage" src="" alt="Enlarged view"></div></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const ITEMS_PER_PAGE = 12;
+const DEFAULT_SCAN_ROOT = "zju_gsc/VGSC/results/fig/data/GSC_splats";
+
+let tempSelectedPath = null;
+let confirmedScanRoot = null;
+let scannedImageGroups = [];
+let groupsToDisplay = [];
+let currentPage = 1;
+
+const el = {
+    treeContainer: document.getElementById('directoryTreeContainer'), setRootBtn: document.getElementById('setRootBtn'),
+    changeRootBtn: document.getElementById('changeRootBtn'), scanBtn: document.getElementById('scanBtn'),
+    scanInstruction: document.getElementById('scanInstruction'), imageSelectionModule: document.getElementById('imageSelectionModule'),
+    imageListContainer: document.getElementById('imageListContainer'), imageFilterInput: document.getElementById('imageFilterInput'),
+    displayBtn: document.getElementById('displayBtn'), galleryView: document.getElementById('galleryView'),
+    galleryContainer: document.getElementById('galleryContainer'), paginationContainer: document.getElementById('paginationContainer'),
+    currentDirectoryDisplay: document.getElementById('currentDirectoryDisplay'), imageCountDisplay: document.getElementById('imageCountDisplay'),
+};
+
+document.addEventListener("DOMContentLoaded", initialize);
+
+function initialize() {
+    fetchAndBuildTree();
+    addEventListeners();
+    if (DEFAULT_SCAN_ROOT) runDefaultScan();
+}
+
+function runDefaultScan() {
+    confirmedScanRoot = DEFAULT_SCAN_ROOT;
+    setUiToRootConfirmedState();
+    handleScan(true);
+}
+
+function addEventListeners() {
+    el.setRootBtn.addEventListener('click', handleSetRoot);
+    el.changeRootBtn.addEventListener('click', handleChangeRoot);
+    el.scanBtn.addEventListener('click', () => handleScan(false));
+    el.imageFilterInput.addEventListener('keyup', handleFilter);
+    document.getElementById('selectAllBtn').addEventListener('click', () => toggleAllCheckboxes(true));
+    document.getElementById('deselectAllBtn').addEventListener('click', () => toggleAllCheckboxes(false));
+    el.displayBtn.addEventListener('click', handleDisplay);
+    document.getElementById('downloadAllBtn').addEventListener('click', handleDownload);
+}
+
+function fetchAndBuildTree() {
+    fetch("/api/list_dirs").then(res => res.json()).then(data => {
+        el.treeContainer.innerHTML = "";
+        const rootUl = document.createElement("ul");
+        rootUl.className = "ps-0";
+        rootUl.appendChild(buildTreeBranch(data));
+        el.treeContainer.appendChild(rootUl);
+    });
+}
+
+function buildTreeBranch(node, path = "") {
+    const fragment = document.createDocumentFragment();
+    Object.keys(node).filter(k => !k.startsWith("_")).sort().forEach(key => {
+        const fullPath = path ? `${path}/${key}` : key;
+        const li = document.createElement("li");
+        li.className = "tree-item collapsed";
+        const labelDiv = document.createElement("div");
+        labelDiv.className = "tree-label";
+        labelDiv.innerHTML = `<span class="toggler me-1"></span><span class="folder-icon">📁</span> <span>${key}</span>`;
+        labelDiv.onclick = e => {
+            e.stopPropagation();
+            if(node[key]?._subdirs && Object.keys(node[key]._subdirs).length > 0) li.classList.toggle('collapsed');
+            handleDirectorySelection(fullPath, labelDiv);
+        };
+        if (node[key]?._subdirs && Object.keys(node[key]._subdirs).length > 0) {
+            const subUl = document.createElement("ul");
+            subUl.appendChild(buildTreeBranch(node[key]._subdirs, fullPath));
+            li.append(labelDiv, subUl);
+        } else {
+            li.append(labelDiv);
+        }
+        fragment.appendChild(li);
+    });
+    return fragment;
+}
+
+function handleDirectorySelection(path, labelElement) {
+    if (confirmedScanRoot) return;
+    tempSelectedPath = path;
+    const currentSelected = el.treeContainer.querySelector(".tree-label.selected");
+    if (currentSelected) currentSelected.classList.remove("selected");
+    labelElement.classList.add("selected");
+    el.setRootBtn.disabled = false;
+}
+
+function handleSetRoot() {
+    if (!tempSelectedPath) return;
+    confirmedScanRoot = tempSelectedPath;
+    setUiToRootConfirmedState();
+}
+
+function setUiToRootConfirmedState() {
+    el.treeContainer.classList.add('d-none');
+    el.setRootBtn.classList.add('d-none');
+    el.setRootBtn.disabled = true;
+    el.changeRootBtn.classList.remove('d-none');
+    el.scanInstruction.innerHTML = `Root set to: <strong>${confirmedScanRoot}</strong>`;
+    el.scanBtn.disabled = false;
+}
+
+function handleChangeRoot() {
+    confirmedScanRoot = tempSelectedPath = null;
+    el.treeContainer.classList.remove('d-none');
+    const currentSelected = el.treeContainer.querySelector(".tree-label.selected");
+    if (currentSelected) currentSelected.classList.remove("selected");
+    el.setRootBtn.classList.remove('d-none');
+    el.changeRootBtn.classList.add('d-none');
+    el.scanInstruction.textContent = 'Please set a scan root above.';
+    el.scanBtn.disabled = true;
+    el.imageSelectionModule.classList.add('d-none');
+    el.displayBtn.disabled = true;
+    el.galleryView.classList.add('d-none');
+}
+
+function handleScan(isAutoScan = false) {
+    if (!confirmedScanRoot) return;
+    el.scanBtn.disabled = true;
+    el.scanBtn.textContent = 'Scanning...';
+    fetch("/api/scan_images", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ root_dir: confirmedScanRoot })})
+        .then(res => res.json()).then(data => {
+            scannedImageGroups = Object.entries(data).sort(([a], [b]) => a.localeCompare(b));
+            populateImageSelectionList();
+            if (isAutoScan) {
+                toggleAllCheckboxes(true);
+                handleDisplay();
+            }
+        }).finally(() => {
+            el.scanBtn.disabled = false;
+            el.scanBtn.textContent = 'Scan Root Directory';
+        });
+}
+
+function populateImageSelectionList() {
+    el.imageListContainer.innerHTML = "";
+    if (scannedImageGroups.length === 0) {
+        el.imageListContainer.innerHTML = '<p class="text-muted p-2 small">No supported images found.</p>';
+        el.displayBtn.disabled = true;
+    } else {
+        scannedImageGroups.forEach(([name], index) => {
+            const item = document.createElement('label');
+            item.className = 'list-group-item d-flex align-items-center';
+            item.innerHTML = `<input class="form-check-input me-2" type="checkbox" value="${index}"><span class="flex-grow-1 small">${name}</span>`;
+            item.querySelector('input').addEventListener('change', checkDisplayButtonState);
+            el.imageListContainer.appendChild(item);
+        });
+    }
+    el.imageSelectionModule.classList.remove('d-none');
+    checkDisplayButtonState();
+}
+
+function handleFilter() {
+    const filterText = el.imageFilterInput.value.toLowerCase();
+    el.imageListContainer.querySelectorAll('.list-group-item').forEach(item => {
+        item.style.display = item.querySelector('span').textContent.toLowerCase().includes(filterText) ? '' : 'none';
+    });
+}
+
+function toggleAllCheckboxes(isSelected) {
+    el.imageListContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        if (cb.closest('.list-group-item').style.display !== 'none') cb.checked = isSelected;
+    });
+    checkDisplayButtonState();
+}
+
+function checkDisplayButtonState() {
+    el.displayBtn.disabled = !el.imageListContainer.querySelector('input[type="checkbox"]:checked');
+}
+
+function handleDisplay() {
+    const selectedIndexes = Array.from(el.imageListContainer.querySelectorAll('input:checked')).map(cb => parseInt(cb.value));
+    groupsToDisplay = selectedIndexes.map(i => scannedImageGroups[i]);
+    currentPage = 1;
+    document.getElementById('welcomeMessage').classList.add('d-none');
+    el.galleryView.classList.remove('d-none');
+    el.currentDirectoryDisplay.textContent = confirmedScanRoot;
+    el.imageCountDisplay.textContent = groupsToDisplay.length;
+    renderGalleryPage();
+}
+
+function renderGalleryPage() {
+    el.galleryContainer.innerHTML = "";
+    if (groupsToDisplay.length === 0) return;
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const paginatedGroups = groupsToDisplay.slice(start, start + ITEMS_PER_PAGE);
+    paginatedGroups.forEach(([name, paths]) => {
+        const card = document.createElement("div"); card.className = "card mb-4";
+        const cardHeader = document.createElement("div"); cardHeader.className = "card-header bg-dark text-white"; cardHeader.textContent = name;
+        const cardBody = document.createElement("div"); cardBody.className = "card-body";
+        const flexContainer = document.createElement("div"); flexContainer.className = "image-flex-container";
+        const sortedPaths = paths.sort();
+        sortedPaths.forEach(path => {
+            const wrapper = document.createElement("div"); wrapper.className = "image-wrapper";
+            const imgContainer = document.createElement("div"); imgContainer.className = "img-container";
+            const img = document.createElement("img"); img.src = `/download?path=${encodeURIComponent(path)}`; img.onclick = () => showImage(img);
+            imgContainer.appendChild(img);
+
+            const dirLabel = document.createElement("div"); dirLabel.className = "image-directory-label";
+
+            const lastSlashIndex = path.lastIndexOf('/');
+            const directoryPath = lastSlashIndex > -1 ? path.substring(0, lastSlashIndex) : '.';
+            
+            let displayPath = directoryPath;
+            if (confirmedScanRoot && confirmedScanRoot !== '.') {
+                if (directoryPath === confirmedScanRoot) {
+                    displayPath = '.';
+                } else if (directoryPath.startsWith(confirmedScanRoot + '/')) {
+                    displayPath = directoryPath.substring(confirmedScanRoot.length + 1);
+                }
+            }
+            dirLabel.textContent = displayPath;
+
+            wrapper.append(imgContainer, dirLabel);
+            flexContainer.appendChild(wrapper);
+        });
+        cardBody.appendChild(flexContainer);
+        card.append(cardHeader, cardBody);
+        el.galleryContainer.appendChild(card);
+    });
+    renderPaginationControls();
+}
+
+function renderPaginationControls() {
+    const totalPages = Math.ceil(groupsToDisplay.length / ITEMS_PER_PAGE);
+    el.paginationContainer.innerHTML = "";
+    if (totalPages <= 1) return;
+    let html = '<ul class="pagination">';
+    for (let i = 1; i <= totalPages; i++) {
+        html += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
+    }
+    html += '</ul>';
+    el.paginationContainer.innerHTML = html;
+    el.paginationContainer.querySelectorAll('.page-link').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            currentPage = parseInt(e.target.dataset.page);
+            renderGalleryPage();
+        });
+    });
+}
+
+function showImage(img) {
+    document.getElementById("modalImage").src = img.src;
+    new bootstrap.Modal(document.getElementById('imageModal')).show();
+}
+
+function handleDownload() {
+    const imagePaths = groupsToDisplay.flatMap(([, paths]) => paths);
+    if (imagePaths.length === 0) return alert("No images are currently displayed to download.");
+    const encodedPaths = imagePaths.map(p => encodeURIComponent(p)).join(',');
+    window.location.href = `/api/zip_download?paths=${encodedPaths}`;
+}
+</script>
+</body>
+</html>

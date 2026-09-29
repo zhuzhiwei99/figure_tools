@@ -1,0 +1,32 @@
+{
+    "source_image_origin": "server_path",
+    "original_source_path_or_filename": "/work/Users/zhuzhiwei/project/6figure/BlenderToolbox/fig/bob/101634/ns_bob_101634_subd2_yellow.png",
+    "server_filename_processed": "ns_bob_101634_subd2_yellow.png",
+    "selection_shape": "Circle",
+    "selection_color": "yellow",
+    "original_image_size_at_source": [
+        1280,
+        1280
+    ],
+    "selection_coords_on_original_image": [
+        376,
+        547,
+        649,
+        820
+    ],
+    "display_image_size_at_selection_time": [
+        454.53125,
+        454.53125
+    ],
+    "selection_coords_on_display_image": {
+        "x1": 133.5286865234375,
+        "y1": 194.3333339691162,
+        "x2": 230.67449951171875,
+        "y2": 291.3333339691162
+    },
+    "scale_factors_applied": [
+        2.816088002750086,
+        2.816088002750086
+    ],
+    "output_job_folder": "ns_bob_101634_subd2_yellow_annotated_single"
+}

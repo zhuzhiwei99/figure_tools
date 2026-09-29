@@ -1,0 +1,281 @@
+
+bob:
+    location = (0, 0, 0.686)  # (UI: click mesh > Transform > Location)
+    rotation = (-100, -190, -28)  # (UI: click mesh > Transform > Rotation)
+    scale = (1.5, 1.5, 1.5)  # (UI: click mesh > Transform > Scale)
+
+
+centaur0:
+    location = (1.2661, 0.12381, 0.15455)  # (UI: click mesh > Transform > Location)
+    rotation = (-193, -183, -63.3)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.009, 0.009, 0.009)  # (UI: click mesh > Transform > Scale)
+
+247069 sphere
+    location = (1.74, -0.39, 0.077)  # (UI: click mesh > Transform > Location)
+    rotation = (-194, -182, -62.6)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.037, 0.037, 0.037)  # (UI: click mesh > Transform > Scale)
+
+53754 弯曲管道
+    location = (0.22, -0.07, 0.01)  # (UI: click mesh > Transform > Location)
+    rotation = (-181, -181, -60.6)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.046, 0.046, 0.046)  # (UI: click mesh > Transform > Scale)
+
+88654 粗糙弯曲管道
+    location = (2.86, -0.06, -1.99)  # (UI: click mesh > Transform > Location)
+    rotation = (-189, -184, -64.4)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.004, 0.004, 0.004)  # (UI: click mesh > Transform > Scale)
+    lightAngle = (217, 222, 11.3)
+
+59197 抱腿怪兽
+    location = (1.1483, 1.8539 , -0.10343)  # (UI: click mesh > Transform > Location)
+    rotation = (-179, -184, -119)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.409, 0.409, 0.409)  # (UI: click mesh > Transform > Scale)
+
+1717684 脑袋
+    location = (-2.143, -1.09, -1.16)  # (UI: click mesh > Transform > Location)
+    rotation = (-209, 0, -90.2)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.781, -0.781, -0.781)  # (UI: click mesh > Transform > Scale)
+64957 双头兔子
+    location = (-0.18787, -8.0536, 0.02464)  # (UI: click mesh > Transform > Location)
+    rotation = (-179, 0.1, -90.2)  # (UI: click mesh > Transform > Rotation)
+    scale = (-1.628, -1.628, -1.628)  # (UI: click mesh > Transform > Scale)
+
+bunny:
+    location = (1.0639, 0.72523, 0.011343)  # (UI: click mesh > Transform > Location)
+    rotation = (-180, 0.0734, 88)  # (UI: click mesh > Transform > Rotation)
+    scale = (-1.628, -1.628, -1.628)  # (UI: click mesh > Transform > Scale)
+
+dog7:
+    location = (0.8826, 0.0403, 0.0208)  # (UI: click mesh > Transform > Location)
+    rotation = (-179, 0.1, 160)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.014, -0.014, -0.014)  # (UI: click mesh > Transform > Scale)
+
+
+200074:
+    location = (-0.835556 , -3.54556, 0.017997)  # (UI: click mesh > Transform > Location)
+    rotation = (-180.109, -0.304, 160)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.065, -0.065, -0.065)  # (UI: click mesh > Transform > Scale)
+
+cat1:
+    location = (1.0053 ,0.043242 , 0.015665)  # (UI: click mesh > Transform > Location)
+    rotation = (-180, -0.304, 118)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.011, -0.011, -0.011)  # (UI: click mesh > Transform > Scale)
+
+cat0:
+    location = (0.16524,-0.19303, 0.041917)  # (UI: click mesh > Transform > Location)
+    rotation = (-180, -1.7, 127)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.017,-0.017, -0.017)  # (UI: click mesh > Transform > Scale)
+
+
+cat0:
+    location = (0.16524,-0.19303, 0.041917)  # (UI: click mesh > Transform > Location)
+    rotation = (-180, -1.7, 127)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.017,-0.017, -0.017)  # (UI: click mesh > Transform > Scale)
+
+cat0:
+    location = (0.16524,-0.133781, 0.037359)  # (UI: click mesh > Transform > Location)
+    rotation = (-180, -1.7, 136)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.016,-0.016, -0.016)  # (UI: click mesh > Transform > Scale)
+
+
+cat3:
+    location = (0.85064, -0.084196, -0.28832)  # (UI: click mesh > Transform > Location)
+    rotation = (-178, -0.544, 130)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.011,-0.011, -0.011)  # (UI: click mesh > Transform > Scale)
+
+cat6:
+    location = (0.53787,0.031057, 0.045715)  # (UI: click mesh > Transform > Location)
+    rotation = (-178, -0.544, 58)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.017,-0.017, -0.017)  # (UI: click mesh > Transform > Scale)
+
+cat7:
+    location = (0.009185 , 0.21792, 0.073061 )  # (UI: click mesh > Transform > Location)
+    rotation = (-178, -0.544, 58)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.022,-0.022, -0.022)  # (UI: click mesh > Transform > Scale)
+
+200074:
+    location = (-1.262 , -2.643, 0.1075 )  # (UI: click mesh > Transform > Location)
+    rotation = (-181, -0.18, 146)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.055,-0.055, -0.055)  # (UI: click mesh > Transform > Scale)
+
+200074:
+    location = (4.306 , 1.5611, -0.092 )  # (UI: click mesh > Transform > Location)
+    rotation = (-181, 0.349, 292)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.071,-0.071, -0.071)  # (UI: click mesh > Transform > Scale)
+
+
+1093600:
+    location = (0.79108 , -0.005518, 0.015858)  # (UI: click mesh > Transform > Location)
+    rotation = (-180, 0.378, 449)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.044,-0.044, -0.044)  # (UI: click mesh > Transform > Scale)
+    侧对面
+    location = (0.79108 , -0.005518, 0.015858)  # (UI: click mesh > Transform > Location)
+    rotation = (-180, 0.378, 60)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.044,-0.044, -0.044)  # (UI: click mesh > Transform > Scale)
+
+1093600_thin_fat:
+    location = (0, 0, 0)  # (UI: click mesh > Transform > Location)
+    rotation = (90, 0, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (1, 1, 1)  # (UI: click mesh > Transform > Scale)
+
+
+
+101634
+    location = (0.610602 , 0, 0.78649 )  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.149, 0.149, 0.149)  # (UI: click mesh > Transform > Scale)
+
+lion
+    location = (0.31911 , 0.19722 , 0.041646  )  # (UI: click mesh > Transform > Location)
+    rotation = (0.137, 0.169, 38.9)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.008, 0.008, 0.008)  # (UI: click mesh > Transform > Scale)
+
+wolf0
+    location = (0.229 , -0.16962 , 0.025405  )  # (UI: click mesh > Transform > Location)
+    rotation = (-181, -180, -55.6)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.017, 0.017, 0.017)  # (UI: click mesh > Transform > Scale)
+
+58238
+    location = (0.57162, 0, 0.76468)  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.09, -0.09, -0.09)  # (UI: click mesh > Transform > Scale)
+
+91655
+    location = (0.62935, 0, 0.79886)  # (UI: click mesh > Transform > Location)
+    rotation = (0, -68, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.026, 0.026, 0.026)  # (UI: click mesh > Transform > Scale)
+
+98938
+    location = (0.50693, 0, 0.023083)  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.01, 0.01, 0.01)  # (UI: click mesh > Transform > Scale)
+
+test_368
+    location = (-1.7003, 0.11967, 0.012978)  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, -50)  # (UI: click mesh > Transform > Rotation)
+    scale = (2.026, 2.026, 2.026)  # (UI: click mesh > Transform > Scale)
+test_454
+    location = (0.9884, -0.4593, -0.1827)  # (UI: click mesh > Transform > Location)
+    rotation = (132, 0, -130)  # (UI: click mesh > Transform > Rotation)
+    scale = (1.570, 1.570, 1.570)  # (UI: click mesh > Transform > Scale)
+
+test_113958
+    location = (0.15079, 0, 0.013276 )  # (UI: click mesh > Transform > Location)
+    rotation = (180, 0, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.012, -0.012, -0.012)  # (UI: click mesh > Transform > Scale)
+
+test_416
+    location = (-1.2365, -0.83954, 1.0379 )  # (UI: click mesh > Transform > Location)
+    rotation = (180, 0, 90)  # (UI: click mesh > Transform > Rotation)
+    scale = (2.035,2.035, 2.035)  # (UI: click mesh > Transform > Scale)
+
+test_053
+    location = (1.2858, -0.073859, 0)  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 140)  # (UI: click mesh > Transform > Rotation)
+    scale = (2.035,2.035, 2.035)  # (UI: click mesh > Transform > Scale)
+
+test_250
+    location = (1.5418, -0.21, 0)  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 140)  # (UI: click mesh > Transform > Rotation)
+    scale = (2.803,2.803, 2.803)  # (UI: click mesh > Transform > Scale)
+
+test_217
+    location = (1.5199, 0.085586, 0)  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 140)  # (UI: click mesh > Transform > Rotation)
+    scale = (1.603, 1.603, 1.603)  # (UI: click mesh > Transform > Scale)
+
+horse14
+    location = (0.6802, 0, 0.0262)  # (UI: click mesh > Transform > Location)
+    rotation = (-180, 0.1, 140)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.007, -0.007, -0.007)  # (UI: click mesh > Transform > Scale)
+
+cactus
+    location = (0.79529 ,-0.5, 0)  # (UI: click mesh > Transform > Location)
+    rotation = (90, 0, 90)  # (UI: click mesh > Transform > Rotation)
+    scale = (1.677,1.677, 1.677)  # (UI: click mesh > Transform > Scale)
+
+fish
+    location = (0.3275 ,-0.138, 0.6288)  # (UI: click mesh > Transform > Location)
+    rotation = (-90, 0, -70)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.646, -0.646, -0.646)  # (UI: click mesh > Transform > Scale)
+
+panda
+    location = (0.54241 ,0, 0.36267)  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 90)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.015, 0.015, 0.015)  # (UI: click mesh > Transform > Scale)
+
+rockerArm
+    location = (1.3135, 0.586, -0.06)  # (UI: click mesh > Transform > Location)
+    rotation = (60, -80, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (2.625, 2.625, 2.625)  # (UI: click mesh > Transform > Scale)
+
+
+spot
+    location = (1.4625, 0.033965, 0)  # (UI: click mesh > Transform > Location)
+    rotation = (90, 180, 131)  # (UI: click mesh > Transform > Rotation)
+    scale = (-1.628, -1.628, -1.628)  # (UI: click mesh > Transform > Scale)
+
+spot back
+    location = (-0.5994 , -0.091825 , 0)  # (UI: click mesh > Transform > Location)
+    rotation = (90, 180, -59)  # (UI: click mesh > Transform > Rotation)
+    scale = (-1.628, -1.628, -1.628)  # (UI: click mesh > Transform > Scale)
+
+spot_head
+    location = (1.4625,0.340465, 0)  # (UI: click mesh > Transform > Location)
+    rotation = (90, 180, 131)  # (UI: click mesh > Transform > Rotation)
+    scale = (-2,-2, -2)  # (UI: click mesh > Transform > Scale)
+
+spot_body
+    location = (1.3361,0.35165, -0.4)  # (UI: click mesh > Transform > Location)
+    rotation = (90, 193, 180)  # (UI: click mesh > Transform > Rotation)
+    scale = (-1.5,-1.5, -1.5)  # (UI: click mesh > Transform > Scale)
+
+spot_body  back
+    location = (0.18527,0.15352, -0.4978)  # (UI: click mesh > Transform > Location)
+    rotation = (90, 181, -59)  # (UI: click mesh > Transform > Rotation)
+    scale = (-1.5,-1.5, -1.5)  # (UI: click mesh > Transform > Scale)
+
+owl
+    location = (0.811328, 0.156392, 0.315375)  # (UI: click mesh > Transform > Location)
+    rotation = (-192, 0, 90)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.03,-0.03, -0.03)  # (UI: click mesh > Transform > Scale)
+
+095
+    location = (-1.67451, 1.44202, 0.716503 )  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 80)  # (UI: click mesh > Transform > Rotation)
+    scale = (-2.51764, -2.51764, -2.51764)  # (UI: click mesh > Transform > Scale)
+
+41984
+    location = (1.5138, 1.13479, 1.11759 )  # (UI: click mesh > Transform > Location)
+    rotation = (0, 28, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.068496, -0.068496, -0.068496)  # (UI: click mesh > Transform > Scale)
+    平放
+    location = (0.4, 1.196, 1.355)  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (-0.073, -0.073, -0.073)  # (UI: click mesh > Transform > Scale)
+
+919994
+    location = (-42.216 , -61.3032, 12.1211  )  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.1 , 0.1,0.1)  # (UI: click mesh > Transform > Scale)
+
+elephant
+    location = (0.53869, -0.740319 , 0 )  # (UI: click mesh > Transform > Location)
+    rotation = (-90, 0, 180)  # (UI: click mesh > Transform > Rotation)
+    scale = (-1.687, -1.687, -1.687)  # (UI: click mesh > Transform > Scale)
+
+elephant_smallbody
+    location = (1.3755, 0.85115 , -0.16198 )  # (UI: click mesh > Transform > Location)
+    rotation = (-90, -31, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (-1.687, -1.687, -1.687)  # (UI: click mesh > Transform > Scale)
+
+
+cube
+    location = (0, 0, 0.65)  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 45)  # (UI: click mesh > Transform > Rotation)
+    scale = (1.266, 1.266, 1.266)  # (UI: click mesh > Transform > Scale)
+
+sphere
+    location = (0.6, 0, 0.8)  # (UI: click mesh > Transform > Location)
+    rotation = (0, 0, 0)  # (UI: click mesh > Transform > Rotation)
+    scale = (0.8, 0.8, 0.8)  # (UI: click mesh > Transform > Scale)

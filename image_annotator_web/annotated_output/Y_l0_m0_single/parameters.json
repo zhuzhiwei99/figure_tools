@@ -1,0 +1,33 @@
+{
+    "source_image_origin": "server_path",
+    "original_source_path_or_filename": "/work/Users/zhuzhiwei/project/3dRecon/reconstruct/lowRankGS/results/figure/spherical_harmonics_for_paper_png/Y_l0_m0.png",
+    "server_filename_processed": "Y_l0_m0.png",
+    "selection_shape": "Rectangle",
+    "selection_color": "yellow",
+    "selection_line_width": 2,
+    "original_image_size_at_source": [
+        2370,
+        2370
+    ],
+    "selection_coords_on_original_image": [
+        865,
+        988,
+        1161,
+        1198
+    ],
+    "display_image_size_at_selection_time": [
+        608.6588134765625,
+        608.6588134765625
+    ],
+    "selection_coords_on_display_image": {
+        "x1": 222.2396240234375,
+        "y1": 253.75260543823242,
+        "x2": 298.2396240234375,
+        "y2": 307.7526054382324
+    },
+    "scale_factors_applied": [
+        3.893807084568342,
+        3.893807084568342
+    ],
+    "output_job_folder": "Y_l0_m0_single"
+}
